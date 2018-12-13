@@ -1,0 +1,127 @@
+<html>
+	<title>
+			calculator
+	</title>
+	<body>
+		<table border="1" align="center">
+			<tr>
+				<td width="100" align="center" colspan="3" id="screen" bgcolor="#c0c0c0">
+					<font color=white size="5"></font>
+				</td>
+				<td width="20" align="center" id="clear" name="clear" onclick="pres_key('C', 'clear')" bgcolor="#111111">
+					<font color=yellow size="5">C</font>
+				</td>
+			</tr>
+			<tr>
+				<td width="100"  align="center" id="key_1" name="1" onclick="pres_key('N', '1')" bgcolor="#000099" >
+						<font color=white size="5">1</font>
+				</td>
+				<td width="100"  align="center" id="key_2" name="2" onclick="pres_key('N', '2')" bgcolor="#000099">
+						<font color=white size="5">2</font>
+				</td>
+				<td width="100"  align="center" id="key_3" name="3" onclick="pres_key('N', '3')" bgcolor="#000099">
+						<font color=white size="5">3</font>
+				</td>
+				<td width="50"  align="center" id="div" name="div" onclick="pres_key('O', '/')" bgcolor="#111111">
+						<b><font color=yellow size="5">/</font></b>
+				</td>
+			</tr>
+			<tr>
+				<td width="20"  align="center" name="4" onclick="pres_key('N', '4')" bgcolor="#000099">
+						<font color=white size="5">4</font>
+				</td>
+				<td width="20"  align="center" name="5" onclick="pres_key('N', '5')" bgcolor="#000099">
+						<font color=white size="5">5</font>
+				</td>
+				<td width="20"  align="center" name="6" onclick="pres_key('N', '6')" bgcolor="#000099">
+						<font color=white size="5">6</font>
+				</td>
+				<td width="50"  align="center" name="mul" onclick="pres_key('O', '*')" bgcolor="#111111">
+						<b><font color=yellow size="5">*</font></b>
+				</td>
+		    </tr>
+		    <tr>
+				<td width="20"  align="center" name="7" onclick="pres_key('N', '7')" bgcolor="#000099">
+						<font color=white size="5">7</font>
+				</td>
+				<td width="20"  align="center" name="8" onclick="pres_key('N', '8')" bgcolor="#000099">
+						<font color=white size="5">8</font>
+				</td>
+				<td width="20"  align="center" name="9" onclick="pres_key('N', '9')" bgcolor="#000099">
+						<font color=white size="5">9</font>
+				</td>
+				<td width="50"  align="center" name="min" onclick="pres_key('O', '-')" bgcolor="#111111">
+						<b><font color=yellow size="5">-</font></b>
+				</td>
+			</tr> 
+			<tr>
+				<td width="20"  align="center" name="dot" onclick="pres_key('O', '.')" bgcolor="#111111">
+						<font color=yellow size="5">.</font>
+				</td>
+				<td width="20"  align="center" name="0" onclick="pres_key('N', '0')" bgcolor="#000099">
+						<font color=white size="5">0</font>
+				</td>
+				<td width="20"  align="center" name="eql" onclick="pres_key('E', 'eql')" bgcolor="#111111">
+						<b><font color=yellow size="5">=</font></b>
+				</td>
+				<td width="50"  align="center" name="plus" onclick="pres_key('O', '+')" bgcolor="#111111">
+						<b><font color=yellow size="5">+</font></b>
+						
+				</td>
+			</tr>          
+		</table>
+	</body>
+</html>
+
+<script>
+// A O B = R: example => 3 + 2 = 5
+
+// This is global variables
+var A = null; // Left operand.
+var O = null; // Middle operator.
+var B = null; // Right operand.
+
+// This is a function that interpret input data.
+function pres_key(Delimeter, Value){
+	if (Value == "clear"){ 
+		document.getElementById("screen").innerText = "";
+		A = null;
+		B = null;	
+		O = null;}
+	// ->A _ _ = _		
+	else if (Delimeter == 'N' && O == null && B == null) {
+		OldScreen = document.getElementById("screen").innerText; 	
+		document.getElementById("screen").innerText = OldScreen + Value;
+		if (A !== null) A = A + Value;
+		else A = Value;	
+	}
+	// A ->O _ = _
+	else if (Delimeter == 'O' && A !== null && O == null && B == null) {
+		OldScreen = document.getElementById("screen").innerText; 	
+		document.getElementById("screen").innerText = OldScreen + Value;
+		O = Value;
+	}
+	// A O ->B = _
+	else if (Delimeter == 'N' && A !== null && O !== null) {
+		OldScreen = document.getElementById("screen").innerText; 	
+		document.getElementById("screen").innerText = OldScreen + Value;
+		if (B !== null) B = B + Value;
+		else B = Value;	
+	}
+    // A O B ->= _	
+	else if (Delimeter == 'E' && A !== null && O !== null && B !== null) {
+		document.getElementById("screen").innerText = calculate(A, O, B);
+		A = calculate(A, O, B);
+		B = null;
+		O = null;	
+	}	
+}
+
+// This is a function that calculate main mathematical operations.
+function calculate(A, O, B) {
+	if (O == '-') return Number(A) - Number(B);
+	else if (O == '+') return Number(A) + Number(B);
+	else if (O == '*') return Number(A) * Number(B);
+	else if (O == '/') return Number(A) / Number(B);
+}
+</script>
